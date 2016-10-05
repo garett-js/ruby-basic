@@ -17,3 +17,17 @@ else
   puts "Привет, #{name}. Твой вес и так норм"
 end
 
+
+# something about oop in Ruby
+
+class Student
+  attr_accessor :first_name, :last_name, :primary_phone_number
+
+  def introduction
+    puts "Hello, my name is #{first_name}"
+  end
+end
+
+alex = Student.new
+alex.first_name = "Alex Jason"
+alex.introduction
