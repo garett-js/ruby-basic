@@ -1,12 +1,23 @@
 require "Date"
 
-# Returns the day of calendar week
-puts Date.new(2016,10,7).cwday
-# Returns the calendar week number
-puts Date.new(2016,10,7).cweek
-# Returns the day of the year
-puts Date.new(2016,10,7).yday
+puts "Day: "
+day = gets.chomp.to_i
+puts "Month: "
+month = gets.chomp.to_i
+puts "Year: "
+year = gets.chomp.to_i
 
-# and easy way
-time = Time.new
-puts "Currently date #{time} and day of year #{time.yday}"
+date = Date.new(year,month,day)
+type_year = Date.leap?(year) ? "leap year": "common year"
+puts "Currently date: #{date}, day of year: #{date.yday} and #{type_year}"
+
+# Returns the day of calendar week
+# puts Date.new(year,month,day).cwday
+# Returns the calendar week number
+# puts Date.new(year,month,day).cweek
+# Returns the day of the year
+
+
+# for Time
+# time = Time.new
+# puts "Currently date #{time}, day of year #{time.yday}"
