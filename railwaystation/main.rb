@@ -19,26 +19,46 @@ require_relative "CargoTrain"
 require_relative "PassangerWagon"
 require_relative "CargoWagon"
 
-red_train = PassangerTrain.new()
-green_train = PassangerTrain.new()
-black_train = CargoTrain.new()
+red_train = PassangerTrain.new("Крутая пассажирская компания","12")
+green_train = PassangerTrain.new("Крутая пассажирская компания","11")
+black_train = CargoTrain.new("Крутая грузовая компания","10")
+
+puts PassangerTrain.find('12')
+puts PassangerTrain.find('11')
+puts PassangerTrain.find('9')
 
 puts ""
-red_train.add_wagon()
-red_train.add_wagon()
-red_train.add_wagon()
+red_train.add_wagon("Крутая пассажирская компания")
+red_train.add_wagon("Крутая пассажирская компания")
+red_train.add_wagon("Крутая пассажирская компания")
 puts ""
 green_train.add_wagon()
 green_train.add_wagon()
 puts ""
-black_train.add_wagon()
+black_train.add_wagon("Крутая грузовая компания")
 
+puts "Компании производители:"
+print "Поезд: "
+puts red_train.company_name
+puts "Вагоны:"
+red_train.wagon.each_with_index { |el,i| puts "#{i+1}: #{el.company_name}" }
+print "Поезд: "
+puts green_train.company_name
+puts "Вагоны:"
+green_train.wagon.each_with_index { |el,i| puts "#{i+1}: #{el.company_name}" }
+print "Поезд: "
+puts black_train.company_name
+puts "Вагоны:"
+black_train.wagon.each_with_index { |el,i| puts "#{i+1}: #{el.company_name}" }
 
 bsk = RailwayStation.new("Бийск")
 brn = RailwayStation.new("Барнаул")
 psh = RailwayStation.new("Поспелиха")
 bst = RailwayStation.new("Бостон")
 nsk = RailwayStation.new("Новосибирск")
+
+puts ""
+RailwayStation.all
 
 altai_route = Route.new(bsk, nsk)
 

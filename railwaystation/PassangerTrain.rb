@@ -2,13 +2,14 @@ require_relative "Train"
 
 class PassangerTrain < Train
 
-  def initialize(type= :passenger_train)
+  def initialize(company_name, number)
+    @type = :passenger_train
     super
   end
 
-  def add_wagon
+  def add_wagon(company_name = "РЖД")
     if self.speed == 0
-      wagon = PassangerWagon.new()
+      wagon = PassangerWagon.new(company_name)
       self.wagon << wagon
       puts "Добавлен новый вагон типа: Пассажирский"
     else

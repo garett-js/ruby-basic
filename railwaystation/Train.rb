@@ -1,8 +1,19 @@
-class Train
-  attr_accessor :wagon, :type, :speed, :route, :station
+# В классе Train создать метод класса find, который принимает номер поезда и возвращает объект поезда
+# по номеру или nil, если поезд с таким номером не найден.
 
-  def initialize(type)
-    @type = type
+require_relative "CompanyName"
+
+class Train
+  attr_accessor :wagon, :type, :speed, :route, :station, :number
+  include CompanyName
+
+  @@list_train = {}
+
+  def initialize(company_name, number)
+    self.company_name = company_name
+
+    @@list_train[number] = self
+
     @string_type = ""
     if type == :cargo_train
       @string_type = "Грузовой"
@@ -16,6 +27,14 @@ class Train
     @wagon = []
 
     puts "Добавлен новый поезд типа: #{@string_type}, id: #{self.object_id}"
+  end
+
+  def self.find(number)
+    if @@list_train[number].nil?
+      nil
+    else
+      @@list_train[number]
+    end
   end
 
   def stop
