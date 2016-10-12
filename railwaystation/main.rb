@@ -19,13 +19,14 @@ require_relative "CargoTrain"
 require_relative "PassangerWagon"
 require_relative "CargoWagon"
 
-red_train = PassangerTrain.new("Крутая пассажирская компания","12")
-green_train = PassangerTrain.new("Крутая пассажирская компания","11")
-black_train = CargoTrain.new("Крутая грузовая компания","10")
+red_train = PassangerTrain.new("Крутая пассажирская компания","abc-12")
+green_train = PassangerTrain.new("Крутая пассажирская компания","666-ex")
+black_train = CargoTrain.new("Крутая грузовая компания","777az")
+#black_train2 = CargoTrain.new("Крутая грузовая компания","777az")
 
-puts PassangerTrain.find('12')
-puts PassangerTrain.find('11')
-puts PassangerTrain.find('9')
+puts PassangerTrain.find("abc-12")
+puts PassangerTrain.find("666-ex")
+puts PassangerTrain.find("777az")
 
 puts ""
 red_train.add_wagon("Крутая пассажирская компания")
@@ -52,6 +53,9 @@ puts "Вагоны:"
 black_train.wagon.each_with_index { |el,i| puts "#{i+1}: #{el.company_name}" }
 
 bsk = RailwayStation.new("Бийск")
+#bsk.name = "2"
+puts "Ошибка валидации" unless bsk.valid?
+
 brn = RailwayStation.new("Барнаул")
 psh = RailwayStation.new("Поспелиха")
 bst = RailwayStation.new("Бостон")
@@ -60,12 +64,14 @@ nsk = RailwayStation.new("Новосибирск")
 puts ""
 RailwayStation.all
 
-altai_route = Route.new(bsk, nsk)
+altai_route = Route.new(bsk,nsk)
 
 altai_route.add_station(brn)
 altai_route.add_station(psh)
 altai_route.add_station(bst)
 altai_route.remove_station(bst)
+
+#altai_route.add_station("bug")
 
 puts ""
 altai_route.show_stations

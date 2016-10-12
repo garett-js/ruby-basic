@@ -1,4 +1,5 @@
 class Route
+  attr_accessor :first, :last
 
   def initialize(first, last)
     @list = []
@@ -7,6 +8,7 @@ class Route
   end
 
   def add_station(station)
+    raise "Неверный тип станции #{station.class}" unless station.kind_of?(RailwayStation)
     @list.insert(-2,station.name)
   end
 
@@ -15,7 +17,7 @@ class Route
   end
 
   def show_stations
-    puts "Маршрут  #{@list.first} -> #{@list.last}"
+    #puts "Маршрут  #{@list.first} -> #{@list.last}"
     @list.each_with_index{ |station, index| puts "#{index + 1}. #{station}"}
   end
 

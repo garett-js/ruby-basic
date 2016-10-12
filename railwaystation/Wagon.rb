@@ -21,10 +21,20 @@ class Wagon
 
   def initialize(company_name)
       @company_name = company_name
+
+      validate!
   end
 
   def type
     return @type
+  end
+
+  protected
+
+  def validate!
+    raise "Название компании должно быть типа String" unless company_name.kind_of?(String)
+    raise "Название компании должно быть больше 1 символа" if company_name.length < 2
+    true
   end
 
 end

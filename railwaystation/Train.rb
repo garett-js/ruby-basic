@@ -1,32 +1,44 @@
 # В классе Train создать метод класса find, который принимает номер поезда и возвращает объект поезда
 # по номеру или nil, если поезд с таким номером не найден.
 
+# Реализовать проверку (валидацию) данных для всех классов.
+# Проверять основные атрибуты (название, номер, тип и т.п.) на наличие, длину и т.п. (в зависимости от атрибута):
+# Валидация должна взываться при создании объекта, если объект невалидный, то должно выбрасываться исключение
+# Должен быть метод valid? который возвращает true, если объект валидный и false - в противном случае.
+
+# Релизовать проверку на формат номера поезда. Допустимый формат: три буквы или цифры в любом порядке,
+# необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса.
+
+# Релизовать интерфейс, который бы выводил пользователю ошибки валидации без прекращения работы программы.
+
+# Убрать из классов все puts (кроме методов, которые и должны что-то выводить на экран),
+# методы просто возвращают значения. (Начинаем бороться за чистоту кода).
+
 require_relative "CompanyName"
 
 class Train
   attr_accessor :wagon, :type, :speed, :route, :station, :number
   include CompanyName
 
+  TRAIN_NUMBER_FORMAT = /^([a-z]|\d){3}-?([a-z]|\d){2}$/i
+
   @@list_train = {}
 
   def initialize(company_name, number)
-    self.company_name = company_name
-
+    raise "Нельзя создать поезд с таким же номером" if @@list_train.include?(number)
     @@list_train[number] = self
 
-    @string_type = ""
-    if type == :cargo_train
-      @string_type = "Грузовой"
-    elsif type == :passenger_train
-      @string_type = "Пассажирский"
-    else
-      @string_type = "Не понятный тип"
-    end
-
+    @number = number
     @speed = 0
     @wagon = []
+    @company_name = company_name
 
-    puts "Добавлен новый поезд типа: #{@string_type}, id: #{self.object_id}"
+    validate!
+  end
+
+  def valid?
+    validate!
+    false
   end
 
   def self.find(number)
@@ -39,18 +51,15 @@ class Train
 
   def stop
     self.speed = 0
-    "Train has stoped"
   end
 
   def speed_up
     self.speed += 10
-    puts "Скорость поезда теперь: #{self.speed}"
   end
 
   def delete_wagon
     if self.speed == 0
       self.wagon.pop if self.wagon.length > 0
-      puts "Отцеплен вагон"
     else
       puts "Поезд всё еще в движении, не возможно отцепить вагон"
     end
@@ -61,7 +70,7 @@ class Train
   end
 
   def current_station
-    puts "Текущая станция: #{self.station}"
+    self.station
   end
 
   def move_to(station)
@@ -89,9 +98,19 @@ class Train
   end
 
   def show_wagon
-    puts "Тип поезда #{@string_type}:"
     @wagon.each_with_index {|obj, index| print "|#{index+1}-#{obj.type}|->"}
     print "{#{self.type.upcase}}>"
+  end
+
+
+
+  protected
+
+  def validate!
+    raise "Неверный номер поезда" if number !~ TRAIN_NUMBER_FORMAT
+    raise "Название Компании должно быть типа String" unless company_name.kind_of?(String)
+    raise "Название Компании должно быть больше 1 символа" if company_name.length < 2
+    true
   end
 
 end
