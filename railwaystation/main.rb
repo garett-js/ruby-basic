@@ -86,14 +86,17 @@ red_train.move_to(brn)
 green_train.move_to(brn)
 black_train.move_to(bsk)
 
-bsk.show_trains
+bsk.show_trains do |station, trains, p_number, c_number|
+  puts "Станция: #{station}. Поезда: #{trains} -> (Пассажирских:#{p_number}, Грузовых #{c_number})"
+end
 brn.show_trains
 psh.show_trains
 nsk.show_trains
 
+#b_wagon = lambda {|obj, index| print "|#{index+1}-#{obj.type}|->"}
 
 puts ""
-red_train.show_wagon
+red_train.show_wagon {|obj, index| print "|#{index+1}-#{obj.type}|->"}
 puts ""
 green_train.show_wagon
 puts ""

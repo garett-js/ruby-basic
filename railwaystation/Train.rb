@@ -14,6 +14,9 @@
 # Убрать из классов все puts (кроме методов, которые и должны что-то выводить на экран),
 # методы просто возвращают значения. (Начинаем бороться за чистоту кода).
 
+# У класса Train написать метод, который принимает блок и проходит по всем
+# вагонам поезда, передавая каждый объект вагона в блок.
+
 require_relative "CompanyName"
 
 class Train
@@ -97,10 +100,23 @@ class Train
     end
   end
 
-  def show_wagon
-    @wagon.each_with_index {|obj, index| print "|#{index+1}-#{obj.type}|->"}
-    print "{#{self.type.upcase}}>"
+  #def show_wagon
+  #  @wagon.each_with_index {|obj, index| print "|#{index+1}-#{obj.type}|->"}
+  #  print "{#{self.type.upcase}}>"
+  #end
+
+  def show_wagon(&b)
+    if block_given?
+      @wagon.each_with_index { |wagon, index| yield(wagon, index) }
+    else
+      @wagon.each { |obj| print "#{obj.type}, " }
+    end
   end
+
+  # method for lamda (Proc)
+  # def show_wagon(block)
+  #   @wagon.each_with_index { |wagon, index| block.call(wagon, index) }
+  # end
 
 
 

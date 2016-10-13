@@ -1,3 +1,6 @@
+# У класса RailwayStation написать метод, который принимает блок и
+# выполняет действия из блока над каждым поездом (Train), находящимся в данный момент на станции.
+
 class RailwayStation
   attr_accessor :name, :list
 
@@ -30,10 +33,15 @@ class RailwayStation
     @list << type
   end
 
-  def show_trains
-    passenger_count = @list.count(:passenger_train)
-    freight_count = @list.count(:cargo_train)
-    puts "Станция: #{@name}. Поезда: #{@list} -> (Пассажирских:#{passenger_count}, Грузовых #{freight_count})"
+  def show_trains(&b)
+    if block_given?
+      passenger_count = @list.count(:passenger_train)
+      freight_count = @list.count(:cargo_train)
+      yield(@name, @list, passenger_count, freight_count)
+    else
+      puts "Станция: #{@name}. Поезда: #{@list}"
+    end
+    #puts "Станция: #{@name}. Поезда: #{@list} -> (Пассажирских:#{passenger_count}, Грузовых #{freight_count})"
   end
 
   def show_type_train
