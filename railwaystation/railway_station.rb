@@ -1,5 +1,6 @@
 # У класса RailwayStation написать метод, который принимает блок и
-# выполняет действия из блока над каждым поездом (Train), находящимся в данный момент на станции.
+# выполняет действия из блока над каждым поездом (Train), находящимся
+# в данный момент на станции.
 
 class RailwayStation
   attr_accessor :name, :list
@@ -25,7 +26,7 @@ class RailwayStation
 
   def self.all
     puts "Станций на текущий момент #{@@number}"
-    @@list_station.each_with_index {|el,i| puts "#{i+1}: #{el}"}
+    @@list_station.each_with_index { |el, i| puts "#{i + 1}: #{el}" }
   end
 
   def take_train(train)
@@ -33,7 +34,7 @@ class RailwayStation
     @list << type
   end
 
-  def show_trains(&b)
+  def show_trains
     if block_given?
       passenger_count = @list.count(:passenger_train)
       freight_count = @list.count(:cargo_train)
@@ -41,21 +42,18 @@ class RailwayStation
     else
       puts "Станция: #{@name}. Поезда: #{@list}"
     end
-    #puts "Станция: #{@name}. Поезда: #{@list} -> (Пассажирских:#{passenger_count}, Грузовых #{freight_count})"
+    # puts "Станция: #{@name}. Поезда: #{@list} -> (Пассажирских:#{passenger_count}, Грузовых #{freight_count})"
   end
 
   def show_type_train
-    for train in @list
-      puts "#{train.type}"
-    end
+    @list.each { |el| el.type.to_s }
   end
 
   protected
 
   def validate!
-    raise "Название станции должно быть типа String" unless name.kind_of?(String)
-    raise "Название станции должно быть больше 1 символа" if name.length < 2
+    raise 'Название станции должно быть типа String' unless name.is_a?(String)
+    raise 'Название станции должно быть больше 1 символа' if name.length < 2
     true
   end
-
 end

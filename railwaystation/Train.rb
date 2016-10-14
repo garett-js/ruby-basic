@@ -1,23 +1,26 @@
-# В классе Train создать метод класса find, который принимает номер поезда и возвращает объект поезда
+# В классе Train создать метод класса find, который принимает номер поезда и
+# возвращает объект поезда
 # по номеру или nil, если поезд с таким номером не найден.
-
 # Реализовать проверку (валидацию) данных для всех классов.
-# Проверять основные атрибуты (название, номер, тип и т.п.) на наличие, длину и т.п. (в зависимости от атрибута):
-# Валидация должна взываться при создании объекта, если объект невалидный, то должно выбрасываться исключение
-# Должен быть метод valid? который возвращает true, если объект валидный и false - в противном случае.
-
-# Релизовать проверку на формат номера поезда. Допустимый формат: три буквы или цифры в любом порядке,
-# необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры после дефиса.
-
-# Релизовать интерфейс, который бы выводил пользователю ошибки валидации без прекращения работы программы.
-
-# Убрать из классов все puts (кроме методов, которые и должны что-то выводить на экран),
+# Проверять основные атрибуты (название, номер, тип и т.п.) на наличие,
+# длину и т.п. (в зависимости от атрибута):
+# Валидация должна взываться при создании объекта, если объект невалидный,
+# то должно выбрасываться исключение
+# Должен быть метод valid? который возвращает true, если объект валидный
+# и false - в противном случае.
+# Релизовать проверку на формат номера поезда. Допустимый формат: три буквы
+# или цифры в любом порядке,
+# необязательный дефис (может быть, а может нет) и еще 2 буквы или цифры
+# после дефиса.
+# Релизовать интерфейс, который бы выводил пользователю ошибки валидации
+# без прекращения работы программы.
+# Убрать из классов все puts (кроме методов, которые и должны что-то
+# выводить на экран),
 # методы просто возвращают значения. (Начинаем бороться за чистоту кода).
-
 # У класса Train написать метод, который принимает блок и проходит по всем
 # вагонам поезда, передавая каждый объект вагона в блок.
 
-require_relative "CompanyName"
+require_relative 'company_name'
 
 class Train
   attr_accessor :wagon, :type, :speed, :route, :station, :number
@@ -28,7 +31,7 @@ class Train
   @@list_train = {}
 
   def initialize(company_name, number)
-    raise "Нельзя создать поезд с таким же номером" if @@list_train.include?(number)
+    raise 'Нельзя создать поезд с таким же номером' if @@list_train.include?(number)
     @@list_train[number] = self
 
     @number = number
@@ -61,10 +64,10 @@ class Train
   end
 
   def delete_wagon
-    if self.speed == 0
-      self.wagon.pop if self.wagon.length > 0
+    if self.speed.zero?
+      wagon.pop unless wagon.empty?
     else
-      puts "Поезд всё еще в движении, не возможно отцепить вагон"
+      puts 'Поезд всё еще в движении, не возможно отцепить вагон'
     end
   end
 
@@ -73,7 +76,7 @@ class Train
   end
 
   def current_station
-    self.station
+    station
   end
 
   def move_to(station)
@@ -82,30 +85,29 @@ class Train
   end
 
   def next_station
-    index = 0
-    index = self.route.route_list.index(@station)
-    if index == self.route.route_list.length-1
-      puts "А дальше станций нет!"
+    index = route.route_list.index(@station)
+    if index == route.route_list.length - 1
+      puts 'А дальше станций нет!'
     else
-      puts "Следущая станция: #{self.route.route_list[index+1]}"
+      puts "Следущая станция: #{route.route_list[index + 1]}"
     end
   end
 
   def prev_station
-    index = self.route.route_list.index(@station)
-    if index == 0
-      puts "Это начальная станция"
+    index = route.route_list.index(@station)
+    if index.zero?
+      puts 'Это начальная станция'
     else
-      puts "Предыдущая станция: #{self.route.route_list[index-1]}"
+      puts "Предыдущая станция: #{route.route_list[index - 1]}"
     end
   end
 
-  #def show_wagon
+  # def show_wagon
   #  @wagon.each_with_index {|obj, index| print "|#{index+1}-#{obj.type}|->"}
   #  print "{#{self.type.upcase}}>"
-  #end
+  # end
 
-  def show_wagon(&b)
+  def show_wagon
     if block_given?
       @wagon.each_with_index { |wagon, index| yield(wagon, index) }
     else
@@ -118,15 +120,12 @@ class Train
   #   @wagon.each_with_index { |wagon, index| block.call(wagon, index) }
   # end
 
-
-
   protected
 
   def validate!
-    raise "Неверный номер поезда" if number !~ TRAIN_NUMBER_FORMAT
-    raise "Название Компании должно быть типа String" unless company_name.kind_of?(String)
-    raise "Название Компании должно быть больше 1 символа" if company_name.length < 2
+    raise 'Неверный номер поезда' if number !~ TRAIN_NUMBER_FORMAT
+    raise 'Название Компании должно быть типа String' unless company_name.is_a?(String)
+    raise 'Название Компании должно быть больше 1 символа' if company_name.length < 2
     true
   end
-
 end
