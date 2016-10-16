@@ -41,19 +41,6 @@ module ExtAttrAcessor
   end
 end
 
-module MyAttrAccessor
-  def my_attr_accessor(*names)
-    names.each do |name|
-      var_name = "@#{name}".to_sym
-      define_method(name) do
-        instance_variable_get(var_name)
-      end
-      define_method("#{name}=".to_sym) do |value|
-        instance_variable_set(var_name, value)
-      end
-    end
-  end
-end
 
 class Test
   extend ExtAttrAcessor
